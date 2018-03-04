@@ -24,7 +24,7 @@ export default class HomeView extends React.Component {
             s_tetris: 0,
             s_snake: 0,
             s_demineur: 0
-        }
+        };
 
         this.handle2048 = this.handle2048.bind(this);
         this.handleDemineur = this.handleDemineur.bind(this);
