@@ -16,24 +16,6 @@ export default class LoginView extends React.Component {
         }
     }
 
-    async userLogin4(){
-        const response = await fetch('http://ygg.life/dev/PlayCenter/requete.php', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'multipart/form-data',
-                'Host': 'ygg.life'
-            },
-            body: JSON.stringify({
-                'action': 'requete',
-                'subaction': 'connexion',
-                'mail': 'tsabs',
-                'mdp': '1234'
-            })
-        });
-        console.log(response)
-    }
-
     async saveItem(item, selectedValue) {
         try {
             await AsyncStorage.setItem(item, selectedValue);
@@ -42,7 +24,7 @@ export default class LoginView extends React.Component {
         }
     }
 
-    hashCode(str){
+    static hashCode(str){
         let len = str.length;
         let hash = 0;
         for(let i=1; i<=len; i++){
@@ -55,15 +37,6 @@ export default class LoginView extends React.Component {
 
     userLogin(){
         let base64 = require('base-64');
-        let ids = {
-            'action': 'requete',
-            'subaction': 'connexion',
-            'mail': 'tsabs',
-            'mdp': '1234'
-        };
-        let temp = 'action=requete&subaction=connexion&mail=bastrou11@gmail.com&mdp=1234'
-        let data = new FormData();
-        data.append( "json", JSON.stringify( ids ) );
 
         let username = "PlayCenter";
         let password = "azerty";
@@ -76,13 +49,14 @@ export default class LoginView extends React.Component {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Basic'+ base64.encode(username + ":" + password),
-                //'Credentials': 'PlayCenter:azerty'
+                //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=connexion&mail='+this.state.login+'&mdp='+this.hashCode(this.state.password)
+            body: 'action=requete&subaction=connexion&mail='+this.state.login+'&mdp='+LoginView.hashCode(this.state.password)
 
         })
             .then(response => response.json())
             .then((responseJson) => {
+                console.log(responseJson)
                 if (responseJson.result === "OK") {
                     this.saveItem('PSEUDO', responseJson.pseudo);
                     Actions.push('HomeView')
@@ -90,8 +64,6 @@ export default class LoginView extends React.Component {
                     Alert.alert("Erreur de saire", "Veuillez entrez des indentifiants valide")
                 }
             })
-
-        //Actions.push('HomeView')
     }
 
     render() {

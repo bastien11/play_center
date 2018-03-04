@@ -6,8 +6,11 @@ import {
 
 import LoginView from "./src/components/views/LoginView";
 import HomeView from "./src/components/views/HomeView";
-import ZokooView from "./src/components/views/ZokooView";
-import test from "./src/components/views/2048/src/test";
+import List2048 from "./src/components/views/2048/List2048";
+import ListTaquin from "./src/components/views/taquin/ListTaquin";
+import ListTetris from "./src/components/views/tetris/ListTetris";
+import ListDemineur from "./src/components/views/demineur/ListDemineur";
+import ListSnake from "./src/components/views/snake/ListSnake";
 
 export default class App extends React.Component {
   render() {
@@ -16,26 +19,45 @@ export default class App extends React.Component {
             <Scene key={'root'}>
                 <Scene
                     component={LoginView}
-                    initial={true}
+                    //initial={true}
                     key={'LoginView'}
-                    title={'Login View'}
+                    title={'Connexion'}
                 />
                 <Scene
                     component={HomeView}
-                    //initial={true}
+                    initial={true}
                     key={'HomeView'}
-                    title={'Home View'}
+                    title={'Acceuil'}
                 />
                 <Scene
-                    component={ZokooView}
+                    component={List2048}
                     //initial={true}
-                    key={'ZokooView'}
+                    key={'List2048'}
                     title={'2048'}
                 />
                 <Scene
-                    component={test}
-                    key={'test'}
-                    title={'test'}
+                    component={ListTaquin}
+                    //initial={true}
+                    key={'ListTaquin'}
+                    title={'Taquin'}
+                />
+                <Scene
+                    component={ListTetris}
+                    //initial={true}
+                    key={'ListTetris'}
+                    title={'Tetris'}
+                />
+                <Scene
+                    component={ListDemineur}
+                    //initial={true}
+                    key={'ListDemineur'}
+                    title={'demineur'}
+                />
+                <Scene
+                    component={ListSnake}
+                    //initial={true}
+                    key={'ListSnake'}
+                    title={'Snake'}
                 />
 
             </Scene>
