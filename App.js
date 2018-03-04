@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import {
     Router,
     Scene,
@@ -7,6 +6,8 @@ import {
 
 import LoginView from "./src/components/views/LoginView";
 import HomeView from "./src/components/views/HomeView";
+import ZokooView from "./src/components/views/ZokooView";
+import test from "./src/components/views/2048/src/test";
 
 export default class App extends React.Component {
   render() {
@@ -25,6 +26,18 @@ export default class App extends React.Component {
                     key={'HomeView'}
                     title={'Home View'}
                 />
+                <Scene
+                    component={ZokooView}
+                    //initial={true}
+                    key={'ZokooView'}
+                    title={'2048'}
+                />
+                <Scene
+                    component={test}
+                    key={'test'}
+                    title={'test'}
+                />
+
             </Scene>
         </Router>
     );
