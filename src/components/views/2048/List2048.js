@@ -4,6 +4,7 @@ import {
     View
 } from "react-native";
 import {Container, Content, Header, Body, Left, Right, Button, Text, List, ListItem} from 'native-base';
+import styles from "../../../../assets/styles/main";
 
 
 export default class List2048 extends Component{
@@ -56,7 +57,7 @@ export default class List2048 extends Component{
             <Content>
                 <Header>
                     <Body>
-                        <Text>Classement 2048</Text>
+                        <Text style={[styles.title_size]}>Classement 2048</Text>
                     </Body>
                 </Header>
 
@@ -81,6 +82,6 @@ export default class List2048 extends Component{
     }
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
 
 });

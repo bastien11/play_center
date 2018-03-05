@@ -4,6 +4,7 @@ import {
     View
 } from "react-native";
 import {Container, Content, Header, Body, Left, Right, Button, Text, List, ListItem} from 'native-base';
+import styles from "../../../../assets/styles/main";
 
 
 export default class ListTetris extends Component{
@@ -57,7 +58,7 @@ export default class ListTetris extends Component{
             <Content>
                 <Header>
                     <Body>
-                    <Text>Classement Tetris</Text>
+                        <Text style={[styles.title_size]}>Classement Tetris</Text>
                     </Body>
                 </Header>
 
@@ -82,6 +83,6 @@ export default class ListTetris extends Component{
     }
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
 
 });

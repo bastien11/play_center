@@ -4,6 +4,7 @@ import {
     View
 } from "react-native";
 import {Container, Content, Header, Body, Left, Right, Button, Text, List, ListItem} from 'native-base';
+import styles from "../../../../assets/styles/main";
 
 
 export default class ListDemineur extends Component{
@@ -56,7 +57,7 @@ export default class ListDemineur extends Component{
             <Content>
                 <Header>
                     <Body>
-                    <Text>Classement Demineur</Text>
+                        <Text style={[styles.title_size]}>Classement Demineur</Text>
                     </Body>
                 </Header>
 
@@ -81,6 +82,6 @@ export default class ListDemineur extends Component{
     }
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
 
 });
