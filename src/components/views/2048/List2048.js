@@ -30,7 +30,7 @@ export default class List2048 extends Component{
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic ' + base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
             body: 'action=requete&subaction=classement_2048'
@@ -38,7 +38,16 @@ export default class List2048 extends Component{
         })
             .then(response => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
+                let scores = [];
+                responseJson.map((item) => {
+                    scores.push({
+                        'userName': item.userName,
+                        'score': item.score
+                    })
+                });
+                this.setState({
+                    scores: scores
+                })
             })
     }
 
@@ -56,12 +65,11 @@ export default class List2048 extends Component{
                         dataArray={this.state.scores}
                         renderRow={(rowData) => (
                             <ListItem>
-                                <Body style={{backgroundColor: "#6abe51", height: 50}}>
+                                <Body style={{backgroundColor: "#6abe51", height: 50, justifyContent: 'center',
+                                    flex: 1}}>
                                 <Text style={[styles.text_size,  {
                                     textAlign: 'center',
-                                    justifyContent: 'center',
-                                    flex: 1
-                                }]}>{rowData} Cours {rowData}</Text>
+                                }]}>Utilisateur: {rowData.userName} -- Scores: {rowData.score}</Text>
                                 </Body>
                             </ListItem>
                         )}>

@@ -24,7 +24,7 @@ export default class LoginView extends React.Component {
         }
     }
 
-    static hashCode(str){
+    hashCode(str){
         let len = str.length;
         let hash = 0;
         for(let i=1; i<=len; i++){
@@ -48,17 +48,18 @@ export default class LoginView extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=connexion&mail='+this.state.login+'&mdp='+LoginView.hashCode(this.state.password)
+            body: 'action=requete&subaction=connexion&mail='+this.state.login+'&mdp='+this.hashCode(this.state.password)
 
         })
             .then(response => response.json())
             .then((responseJson) => {
-                console.log(responseJson)
+                console.log(responseJson);
                 if (responseJson.result === "OK") {
                     this.saveItem('PSEUDO', responseJson.pseudo);
+                    this.saveItem('MAIL', responseJson.mail);
                     Actions.push('HomeView')
                 } else {
                     Alert.alert("Erreur de saire", "Veuillez entrez des indentifiants valide")

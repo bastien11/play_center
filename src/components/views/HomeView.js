@@ -12,13 +12,13 @@ import {
 } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 import styles from "../../../assets/styles/main";
-import LoginView from "./LoginView";
 
 export default class HomeView extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             pseudo: '',
+            mail: '',
             s_2048: 0,
             s_taquin: 0,
             s_tetris: 0,
@@ -70,9 +70,11 @@ export default class HomeView extends React.Component {
     }
 
     getInfosUser() {
-        AsyncStorage.getItem("PSEUDO").then((infos) => {
+        AsyncStorage.multiGet(["PSEUDO", "MAIL"]).then((infos) => {
+            console.log(infos[1][1])
             this.setState({
-                pseudo: infos,
+                pseudo: infos[0][1],
+                mail: [1][1]
             })
         });
 
@@ -85,16 +87,15 @@ export default class HomeView extends React.Component {
         let password = "azerty";
         let url = 'http://ygg.life/dev/PlayCenter/requete.php';
         //headers.append('Content-Type', 'application/json');
-
         fetch('http://ygg.life/dev/PlayCenter/requete.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_2048'
+            body: 'action=requete&subaction=get_2048&mail='+this.state.mail
 
         })
             .then(response => response.json())
@@ -116,10 +117,10 @@ export default class HomeView extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_taquin'
+            body: 'action=requete&subaction=get_taquin&mail='+this.state.mail
 
         })
             .then(response => response.json())
@@ -141,10 +142,10 @@ export default class HomeView extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_tetris'
+            body: 'action=requete&subaction=get_tetris&mail='+this.state.mail
 
         })
             .then(response => response.json())
@@ -166,10 +167,10 @@ export default class HomeView extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_snake'
+            body: 'action=requete&subaction=get_snake&mail='+this.state.mail
 
         })
             .then(response => response.json())
@@ -191,10 +192,10 @@ export default class HomeView extends React.Component {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic'+ base64.encode(username + ":" + password),
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_demineur'
+            body: 'action=requete&subaction=get_demineur&mail='+this.state.mail
 
         })
             .then(response => response.json())

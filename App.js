@@ -19,13 +19,13 @@ export default class App extends React.Component {
             <Scene key={'root'}>
                 <Scene
                     component={LoginView}
-                    //initial={true}
+                    initial={true}
                     key={'LoginView'}
                     title={'Connexion'}
                 />
                 <Scene
                     component={HomeView}
-                    initial={true}
+                    //initial={true}
                     key={'HomeView'}
                     title={'Acceuil'}
                 />
