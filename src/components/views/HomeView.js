@@ -19,11 +19,11 @@ export default class HomeView extends React.Component {
         this.state = {
             pseudo: '',
             mail: '',
-            s_2048: 0,
-            s_taquin: 0,
-            s_tetris: 0,
-            s_snake: 0,
-            s_demineur: 0
+            s_2048: '0',
+            s_taquin: '0',
+            s_tetris: '0',
+            s_snake: '0',
+            s_demineur: '0'
         };
 
         this.handle2048 = this.handle2048.bind(this);
@@ -40,13 +40,17 @@ export default class HomeView extends React.Component {
         this.getScoreTetris = this.getScoreTetris.bind(this);
     }
 
-    componentDidMount(){
+    componentWillMount(){
         this.getInfosUser();
         this.getScore2048();
         this.getScoreDemineur();
-        this.getScoreSnake();
+        //this.getScoreSnake();
         this.getScoreTaquin();
-        this.getScoreTetris();
+        //this.getScoreTetris();
+    }
+
+    componentWillReceiveProps() {
+        this.getInfosUser()
     }
 
     handle2048(){
@@ -70,8 +74,8 @@ export default class HomeView extends React.Component {
     }
 
     getInfosUser() {
-        AsyncStorage.multiGet(["PSEUDO", "MAIL"]).then((infos) => {
-            console.log(infos[1][1])
+        AsyncStorage.multiGet(['PSEUDO', 'MAIL']).then((infos) => {
+            console.log(infos[1][1]);
             this.setState({
                 pseudo: infos[0][1],
                 mail: [1][1]
@@ -87,21 +91,29 @@ export default class HomeView extends React.Component {
         let password = "azerty";
         let url = 'http://ygg.life/dev/PlayCenter/requete.php';
         //headers.append('Content-Type', 'application/json');
-        fetch('http://ygg.life/dev/PlayCenter/requete.php', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
-                //'Credentials': 'unsername:password'
-            },
-            body: 'action=requete&subaction=get_2048&mail='+this.state.mail
+        AsyncStorage.getItem('MAIL').then((item) => {
+            fetch('http://ygg.life/dev/PlayCenter/requete.php', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': 'Basic ' + base64.encode(username + ":" + password),
+                    //'Credentials': 'unsername:password'
+                },
+                body: 'action=requete&subaction=get_2048&identifiant='+item
 
-        })
-            .then(response => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
             })
+                .then(response => response.json())
+                .then((responseJson) => {
+                    if(responseJson.result !== "KO"){
+                        console.log(responseJson.score);
+                        this.setState({
+                            s_2048: responseJson[0].score
+                        })
+                    }
+                })
+        })
+
     }
 
     getScoreTaquin(){
@@ -120,12 +132,46 @@ export default class HomeView extends React.Component {
                 'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_taquin&mail='+this.state.mail
+            body: 'action=requete&subaction=get_taquin&identifiant='+this.state.mail
 
         })
             .then(response => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
+                if(responseJson.result !== "KO"){
+                    this.setState({
+                        s_taquin: responseJson[0].score
+                    })
+                }
+            })
+    }
+    getScoreTaquin(){
+        let base64 = require('base-64');
+
+        let username = "PlayCenter";
+        let password = "azerty";
+        let url = 'http://ygg.life/dev/PlayCenter/requete.php';
+        //headers.append('Content-Type', 'application/json');
+
+        fetch('http://ygg.life/dev/PlayCenter/requete.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Basic '+ base64.encode(username + ":" + password),
+                //'Credentials': 'unsername:password'
+            },
+            body: 'action=requete&subaction=get_taquin&identifiant='+this.state.mail
+
+        })
+            .then(response => response.json())
+            .then((responseJson) => {
+                console.log(responseJson);
+                if(responseJson.result !== "KO"){
+                    this.setState({
+                        s_taquin: responseJson[0].score
+                    })
+                }
             })
     }
 
@@ -145,12 +191,17 @@ export default class HomeView extends React.Component {
                 'Authorization': 'Basic '+ base64.encode(username + ":" + password),
                 //'Credentials': 'unsername:password'
             },
-            body: 'action=requete&subaction=get_tetris&mail='+this.state.mail
+            body: 'action=requete&subaction=get_tetris&identifiant='+this.state.mail
 
         })
             .then(response => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
+                if(responseJson.result !== "KO"){
+                    this.setState({
+                        s_tetris: responseJson[0].score
+                    })
+                }
             })
     }
 
@@ -176,6 +227,11 @@ export default class HomeView extends React.Component {
             .then(response => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
+                if(responseJson.result !== "KO"){
+                    this.setState({
+                        s_snake: responseJson[0].score
+                    })
+                }
             })
     }
 
@@ -201,6 +257,11 @@ export default class HomeView extends React.Component {
             .then(response => response.json())
             .then((responseJson) => {
                 console.log(responseJson);
+                if(responseJson.result !== "KO"){
+                    this.setState({
+                        s_snake: responseJson[0].score
+                    })
+                }
             })
     }
 
@@ -220,7 +281,7 @@ export default class HomeView extends React.Component {
                                     <Thumbnail source={require('../../../assets/images/2048.jpg')}/>
                                     <Body style={{flexDirection: "row"}}>
                                         <Text style={[styles.title_size]}> Faite glisser !</Text>
-                                        <Text note style={[styles.text_size, {marginLeft: 25, marginTop: 5}]}>Score: {}</Text>
+                                        <Text note style={[styles.text_size, {marginLeft: 15, marginTop: 5}]}>Score: {this.state.s_2048}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -246,8 +307,9 @@ export default class HomeView extends React.Component {
                             <CardItem>
                                 <Left>
                                     <Thumbnail source={require('../../../assets/images/taquin.jpg')}/>
-                                    <Body>
+                                    <Body style={{flexDirection: 'row'}}>
                                     <Text style={[styles.title_size]}> Courage !</Text>
+                                    <Text note style={[styles.text_size, {marginLeft: 18, marginTop: 5}]}>Score: {this.state.s_taquin}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -273,8 +335,9 @@ export default class HomeView extends React.Component {
                             <CardItem>
                                 <Left>
                                     <Thumbnail source={require('../../../assets/images/tetris.png')}/>
-                                    <Body>
+                                    <Body style={{flexDirection: 'row'}}>
                                     <Text style={[styles.title_size]}> Nooon !</Text>
+                                    <Text note style={[styles.text_size, {marginLeft: 18, marginTop: 5}]}>Score: {this.state.s_tetris}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -300,8 +363,9 @@ export default class HomeView extends React.Component {
                             <CardItem>
                                 <Left>
                                     <Thumbnail source={require('../../../assets/images/snake.png')}/>
-                                    <Body>
+                                    <Body style={{flexDirection: 'row'}}>
                                     <Text style={[styles.title_size]}> Serpent et Sourit !</Text>
+                                    <Text note style={[styles.text_size, {marginLeft: 18, marginTop: 5}]}>Score: {this.state.s_snake}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
@@ -326,8 +390,9 @@ export default class HomeView extends React.Component {
                             <CardItem>
                                 <Left>
                                     <Thumbnail source={require('../../../assets/images/demineur.png')}/>
-                                    <Body>
-                                    <Text style={[styles.title_size]}> Attention ça explose !</Text>
+                                    <Body style={{flexDirection: 'row'}}>
+                                    <Text style={[styles.title_size]}> Ca explose !</Text>
+                                    <Text note style={[styles.text_size, {marginLeft: 18, marginTop: 5}]}>Score: {this.state.s_demineur}</Text>
                                     </Body>
                                 </Left>
                             </CardItem>
